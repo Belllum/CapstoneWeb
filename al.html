@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+// Get a reference to the Firestore database
+var db = firebase.firestore();
+
+// Retrieve data from Firestore collection
+db.collection('alarm').get()
+  .then(function(querySnapshot) {
+    querySnapshot.forEach(function(doc) {
+      var data = doc.data();
+
+      // Get the field values
+      var MedicationDosage = data.MedicationDosage;
+      var alarmDateEnd = data.alarmDateEnd;
+      var alarmDateStart = data.alarmDateStart;
+      var alarmTimeStart = data.alarmTimeStart;
+      var medicationConsumptionCount = data.medicationConsumptionCount;
+      var medicineName = data.medicineName;
+      var timeInterval = data.timeInterval;
+
+      // Do something with the field values
+      console.log("Medication Dosage:", MedicationDosage);
+      console.log("Alarm Date End:", alarmDateEnd);
+      console.log("Alarm Date Start:", alarmDateStart);
+      console.log("Alarm Time Start:", alarmTimeStart);
+      console.log("Medication Consumption Count:", medicationConsumptionCount);
+      console.log("Medicine Name:", medicineName);
+      console.log("Time Interval:", timeInterval);
+    });
+  })
+  .catch(function(error) {
+    console.log("Error getting documents: ", error);
+  });
+
+        // Get the alarm details
+var startDate = new Date('2023-05-30');
+var endDate = new Date('2023-05-31');
+var alarmTimeStart = '08:37';
+var medicationDosage = 1;
+var consumptionCount = 1; // Number of times the alarm should repeat
+var timeInterval = 1; // Time interval between each alarm (in minutes)
+
+// Calculate the start and end datetime for the alarm sequence
+var startDateTime = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate(),
+                             parseInt(alarmTimeStart.split(':')[0]), parseInt(alarmTimeStart.split(':')[1]));
+var endDateTime = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate(),
+                           parseInt(alarmTimeStart.split(':')[0]), parseInt(alarmTimeStart.split(':')[1]));
+
+// Calculate the time difference between the current time and the start datetime
+var timeDifference = startDateTime - new Date();
+
+// Check if the start datetime has already passed
+if (timeDifference <= 0) {
+  console.log('The start datetime has already passed.');
+} else {
+  // Schedule the initial alarm
+  setTimeout(function() {
+    triggerAlarm();
+    scheduleRecurringAlarms();
+  }, timeDifference);
+}
+
+// Function to trigger the alarm
+function triggerAlarm() {
+  console.log('Alarm triggered!');
+  console.log('Medication Dosage:', medicationDosage);
+  console.log('Consumption Count:', consumptionCount);
+  console.log('Time Interval:', timeInterval);
+
+  // Perform any alarm-related actions here
+  // You can play a sound, display a notification, etc.
+}
+
+// Function to schedule recurring alarms
+function scheduleRecurringAlarms() {
+  var interval = timeInterval * 60 * 1000; // Convert time interval to milliseconds
+
+  // Calculate the number of days between the start and end date
+  var daysDifference = Math.ceil((endDateTime - startDateTime) / (1000 * 60 * 60 * 24));
+
+  // Schedule the remaining alarms based on consumption count, time interval, and days difference
+  for (var i = 1; i < consumptionCount; i++) {
+    for (var j = 0; j <= daysDifference; j++) {
+      var scheduledDateTime = new Date(startDateTime.getTime() + j * (24 * 60 * 60 * 1000) + i * interval);
+      setTimeout(triggerAlarm, scheduledDateTime - new Date());
+    }
+  }
+}
+
+
+    </script>
+</body>
+</html>

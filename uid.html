@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firestore Message</title>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+</head>
+<body>
+    <div>
+        <label for="message">Enter a message:</label>
+        <input type="text" id="message" />
+        <button id="send-button">Send</button>
+    </div>
+</body>
+<script>
+    var firebaseConfig = {
+        apiKey: "AIzaSyAf7yRLEpa_wMxIuztOVBSg41a7N9XAO5o",
+    authDomain: "webb-a4eff.firebaseapp.com",
+    databaseURL: "https://webb-a4eff-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "webb-a4eff",
+    storageBucket: "webb-a4eff.appspot.com",
+    messagingSenderId: "527785203486",
+    appId: "1:527785203486:web:be66796aac3ce589a35b0f",
+    measurementId: "G-JRV8EBH893"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+// Get a reference to the Firestore service
+var firestore = firebase.firestore();
+
+document.addEventListener("DOMContentLoaded", function () {
+    var messageInput = document.getElementById("message");
+    var sendButton = document.getElementById("send-button");
+
+    sendButton.addEventListener("click", function () {
+        var message = messageInput.value.trim();
+        if (message !== "") {
+            // Add the message to the "messages" collection in Firestore
+            firestore.collection("Misage").add({
+                text: message,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            })
+            .then(function(docRef) {
+                console.log("Message added with ID: ", docRef.id);
+                messageInput.value = "";
+            })
+            .catch(function(error) {
+                console.error("Error adding message: ", error);
+            });
+        }
+    });
+});
+
+</script>
+</html>

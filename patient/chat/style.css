@@ -1,0 +1,72 @@
+/* Reset default margin and padding */
+body, ul, li, p {
+    margin: 0;
+    padding: 0;
+}
+
+/* Basic styling for the chat container */
+.chat-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling for the chat header */
+.chat-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Styling for individual chat messages */
+.message {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    word-wrap: break-word;
+    font-size: 16px;
+    max-width: 80%;
+}
+
+/* Styling for pharmacy messages */
+.pharmacy {
+    background-color: #d2eaf0;
+    align-self: flex-start;
+}
+
+/* Styling for user messages */
+.user {
+    background-color: #f0e0d2;
+    align-self: flex-end;
+}
+/* Styling for doctor messages */
+.patient {
+    background-color: #d8f9ff;
+    align-self: flex-end;
+    text-align: right;
+}
+/* Styling for the chat input area */
+.chat-input {
+    display: flex;
+    margin-top: 20px;
+}
+
+/* Styling for the message input field */
+#message-input {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 5px 0 0 5px;
+}
+
+/* Styling for the send button */
+#send-button {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    border-radius: 0 5px 5px 0;
+    padding: 10px 15px;
+    cursor: pointer;
+}
